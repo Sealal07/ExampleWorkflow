@@ -133,7 +133,8 @@ export const BookingFilters: React.FC<BookingFiltersProps> = ({ filters, setFilt
                 key={floor} // Уникальный ключ
                 onClick={() => {
                   // Обновляем выбранный этаж
-                  setFilters(prev => ({ ...prev, floor: floor as any }));
+                  // Исправление:
+                  setFilters(prev => ({ ...prev, floor: floor as 'all' | 1 | 2 | 3 }));
                   // Закрываем дропдаун после выбора
                   setIsFloorDropdownOpen(false);
                 }}
