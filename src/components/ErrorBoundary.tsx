@@ -1,7 +1,7 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import type { ErrorInfo, ReactNode } from 'react'; 
 // Импортируем необходимые типы из React: Component - базовый класс для создания компонентов,
 // ErrorInfo - интерфейс для информации об ошибке, ReactNode - тип для дочерних элементов
-
+import { Component } from 'react';
 interface Props {
   children: ReactNode;
 }
@@ -72,7 +72,7 @@ export class ErrorBoundary extends Component<Props, State> {
       );
     }
 
-    return this.children;
+    return this.props.children; 
     // Если ошибки нет, рендерим дочерние компоненты, переданные в ErrorBoundary
   }
 }
