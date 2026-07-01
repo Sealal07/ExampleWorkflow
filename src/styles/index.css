@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ДОБАВЬТЕ ЭТОТ БЛОК V4: */
+@import "tailwindcss";
 
 body {
   margin: 0;
