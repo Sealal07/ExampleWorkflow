@@ -62,7 +62,13 @@ export const Booking: React.FC = () => {
     // Переходим на страницу ресурса по его id
     navigate(`/resource/${id}`);
   };
+// Добавьте эту кнопку где-нибудь вверху разметки внутри src/pages/Booking.tsx для проверки
+const [shouldCrash, setShouldCrash] = useState(false);
 
+if (shouldCrash) {
+  // Намеренно генерируем ошибку рендеринга типов/дат
+  throw new Error("Критическая симуляция сбоя: Некорректный формат данных календаря.");
+}
   // Возвращаем JSX-разметку страницы
   return (
     // Основной контейнер с отступами и максимальной шириной
@@ -71,6 +77,13 @@ export const Booking: React.FC = () => {
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Рабочее пространство</h1>
         <p className="text-gray-500 mt-1">Используйте фильтры для быстрого поиска и бронирования шеринг-зон офиса.</p>
+      // ... внутри return компонента Booking, рядом с заголовком, выведем кнопку тестирования:
+<button 
+  onClick={() => setShouldCrash(true)}
+  className="text-[10px] bg-red-100 hover:bg-red-200 text-red-700 px-2 py-1 rounded font-mono transition-colors opacity-30 hover:opacity-100"
+>
+  ⚠️ Тест Сбоя (ErrorBoundary)
+</button>
       </div>
 
       {/* Панель управления фильтрами (передаем состояние и функцию обновления) */}
