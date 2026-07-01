@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+// src/pages/Dashboard.tsx
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 
@@ -16,16 +17,15 @@ export const Dashboard: React.FC = () => {
   if (!userCtx) throw new Error("UserContext не найден");
   const { user } = userCtx;
 
-  const [upcoming, setUpcoming] = useState<BookingRecord[]>([]);
+  // Инициализируем состояние сразу отфильтрованными данными из localStorage
+  const [upcoming] = useState<BookingRecord[]>(() => {
+    const saved: BookingRecord[] = JSON.parse(localStorage.getItem('user_bookings') || '[]');
+    return saved.filter(b => b.status === 'Confirmed');
+  });
   
-  // Симуляция данных заполненности офиса на сегодня по ТЗ (например, 68% мест забронировано)
   const officeOccupancyPercent = 68;
 
-  useEffect(() => {
-    const saved: BookingRecord[] = JSON.parse(localStorage.getItem('user_bookings') || '[]');
-    // Фильтруем только активные (подтвержденные) записи для виджета ближайших бронирований
-    setUpcoming(saved.filter(b => b.status === 'Confirmed'));
-  }, []);
+  // useEffect больше не нужен для начальной синхронизации синхронного localStorage!
 
   return (
     <div className="p-8 max-w-5xl mx-auto space-y-8">

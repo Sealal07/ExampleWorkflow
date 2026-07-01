@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../context/UserContext';
 
 interface BookingRecord {
@@ -17,20 +17,15 @@ export const Profile: React.FC = () => {
   if (!userCtx) throw new Error("UserContext не найден");
   const { user, refundHours } = userCtx;
 
-  const [bookings, setBookings] = useState<BookingRecord[]>([]);
-
-  // Синхронизация данных с localStorage при монтировании
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem('user_bookings') || '[]');
-    setBookings(saved);
-  }, []);
+  // Инициализируем состояние напрямую из localStorage, избегая вызова в useEffect
+  const [bookings, setBookings] = useState<BookingRecord[]>(() => {
+    return JSON.parse(localStorage.getItem('user_bookings') || '[]');
+  });
 
   // Экшен отмены бронирования
   const handleCancelBooking = (bookingId: string, hoursToRefund: number) => {
-    // 1. Возвращаем часы в глобальный контекст бизнес-логики
     refundHours(hoursToRefund);
 
-    // 2. Обновляем статус записи в локальном стейте и localStorage
     const updatedBookings = bookings.map(b => 
       b.id === bookingId ? { ...b, status: 'Cancelled' as const } : b
     );
